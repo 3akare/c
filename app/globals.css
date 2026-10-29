@@ -1,1 +1,98 @@
 @import "tailwindcss";
+
+/* HotdogGPT — a dead-serious AI lab. Dark, quiet, expensive-looking. */
+:root {
+  --bg: #050505;
+  --panel: #0d0d0f;
+  --line: rgb(255 255 255 / 0.09);
+  --text: #f4f4f5;
+  --muted: #8a8a93;
+  --glow-a: #ff6a3d; /* ketchup, but make it premium */
+  --glow-b: #ffc24b; /* mustard, but make it premium */
+  --yes: #7cf2b0;
+  --no: #ff7a7a;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-glow-a: var(--glow-a);
+  --color-glow-b: var(--glow-b);
+  --color-yes: var(--yes);
+  --color-no: var(--no);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif-src), ui-serif, Georgia, serif;
+  --font-mono: var(--font-mono-src), ui-monospace, monospace;
+}
+
+@layer base {
+  html { background: var(--bg); color: var(--text); }
+  body { @apply min-h-dvh font-sans antialiased; background: var(--bg); }
+  ::selection { background: var(--glow-b); color: #000; }
+  :focus-visible { outline: 1px solid var(--text); outline-offset: 4px; }
+}
+
+/* The glow orb every AI launch page legally requires */
+@utility orb {
+  position: absolute; border-radius: 9999px; filter: blur(90px); pointer-events: none;
+  background: radial-gradient(circle at 30% 30%, var(--glow-b), var(--glow-a) 55%, transparent 70%);
+}
+
+@utility gradient-text {
+  background: linear-gradient(100deg, #fff 10%, var(--glow-b) 45%, var(--glow-a) 80%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Hairline panel */
+@utility panel {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.01));
+  border: 1px solid var(--line); border-radius: 1.25rem;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 30px 80px -40px rgb(0 0 0 / 0.8);
+}
+
+@utility btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.75rem; padding: 0 1.25rem; border-radius: 9999px;
+  background: var(--text); color: #000; font-weight: 500; font-size: 0.9375rem;
+  transition: opacity 150ms ease, transform 150ms ease;
+  &:hover { opacity: 0.88; }
+  &:active { transform: scale(0.98); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+@utility btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.75rem; padding: 0 1.25rem; border-radius: 9999px;
+  border: 1px solid var(--line); color: var(--text); font-weight: 500; font-size: 0.9375rem;
+  transition: background 150ms ease;
+  &:hover { background: rgb(255 255 255 / 0.05); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+
+/* Faint grid behind the hero */
+@utility grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 20%, transparent 70%);
+}
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+@utility shimmer {
+  background: linear-gradient(90deg, var(--muted) 0%, var(--text) 50%, var(--muted) 100%);
+  background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
